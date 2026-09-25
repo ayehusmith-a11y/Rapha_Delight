@@ -6,7 +6,7 @@ const http = require("http");
 const path = require("path");
 const { spawn } = require("child_process");
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, "public");
 const SITE_FILE = "index.html";
 const DEFAULT_PORT = 4173;
 

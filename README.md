@@ -12,14 +12,15 @@ The site runs at `http://127.0.0.1:4173/` by default.
 
 ## Project Structure
 
-- `index.html` is the production entry point.
-- Product images, logo, video and social icons live in the project root and are referenced directly by the page.
+- `public/index.html` is the production entry point.
+- Product images, logo, video and social icons live in `public/` and are referenced directly by the page.
 - `setup_rapha.js` checks local assets and starts a small static server for testing.
+- `vercel.json` tells Vercel to deploy the `public/` directory.
 
 ## Deploying On Vercel
 
 1. Import this GitHub repository into Vercel.
 2. Choose the default static site settings.
-3. Leave the build command empty.
-4. Leave the output directory empty.
+3. Build command: empty.
+4. Output directory: `public`.
 5. Deploy.
