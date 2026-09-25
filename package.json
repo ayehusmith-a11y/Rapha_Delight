@@ -1,0 +1,12 @@
+{
+  "name": "rapha-delight",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static website for Rapha Delight Enterprise.",
+  "scripts": {
+    "check": "node setup_rapha.js",
+    "dev": "node setup_rapha.js --serve",
+    "start": "node setup_rapha.js --serve",
+    "open": "node setup_rapha.js --open"
+  }
+}
