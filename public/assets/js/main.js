@@ -39,7 +39,7 @@ var flag=[
 ];
 var more=[];
 document.getElementById('svc').innerHTML=services.map(function(s){return '<article class="service"><span class="sym" aria-hidden="true">'+s[0]+'</span><h3>'+s[1]+'</h3><p>'+s[2]+'</p></article>'}).join('');
-document.getElementById('flag').innerHTML=flag.map(function(p){return '<article class="product"><div class="product-img"><span class="product-badge">'+p[5]+'</span><img src="'+p[4]+'" alt="'+p[0]+'" data-preview-title="'+p[0]+'" data-preview-count="'+p[5]+'"></div><div class="product-body"><h3>'+p[0]+'</h3><p>'+p[1]+'</p><dl><div><dt>Benefits: </dt><dd>'+p[2]+'</dd></div><div><dt>Uses: </dt><dd>'+p[3]+'</dd></div></dl><a class="btn sm" href="#contact" data-p="'+p[0]+'">Order this</a></div></article>'}).join('');
+document.getElementById('flag').innerHTML=flag.map(function(p){return '<article class="product"><span class="product-badge">'+p[5]+'</span><div class="product-img"><img src="'+p[4]+'" alt="'+p[0]+'" data-preview-title="'+p[0]+'" data-preview-count="'+p[5]+'"></div><div class="product-body"><h3>'+p[0]+'</h3><p>'+p[1]+'</p><dl><div><dt>Benefits: </dt><dd>'+p[2]+'</dd></div><div><dt>Uses: </dt><dd>'+p[3]+'</dd></div></dl><a class="btn sm" href="#contact" data-p="'+p[0]+'">Order this</a></div></article>'}).join('');
 document.getElementById('more').innerHTML=more.map(function(p){return '<article class="mini"><h3>'+p[0]+'</h3><p>'+p[1]+'</p><a href="#contact" data-p="'+p[0]+'">Order this</a></article>'}).join('');
 var galleryIndex=0;
 var galleryImage=document.getElementById('galleryImage');
