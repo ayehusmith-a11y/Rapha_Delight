@@ -77,20 +77,57 @@ function isPageAnchor(value) {
   return value.startsWith("#");
 }
 
-function extractLocalReferences(html) {
-  const references = new Set([SITE_FILE]);
+function addReference(references, rawValue) {
+  const value = rawValue.trim().split("#")[0].split("?")[0];
+
+  if (!value || isRemoteUrl(value) || isPageAnchor(value)) {
+    return;
+  }
+
+  references.add(decodeURIComponent(value));
+}
+
+function extractLocalReferences(content) {
+  const references = new Set();
   const attributePattern = /\b(?:src|href)\s*=\s*["']([^"']+)["']/gi;
+  const assetStringPattern = /["']([^"']+\.(?:css|js|json|png|jpe?g|svg|mp4|ico))(?:[?#][^"']*)?["']/gi;
   let match;
 
-  while ((match = attributePattern.exec(html)) !== null) {
-    const rawValue = match[1].trim();
-    const value = rawValue.split("#")[0].split("?")[0];
+  while ((match = attributePattern.exec(content)) !== null) {
+    addReference(references, match[1]);
+  }
 
-    if (!value || isRemoteUrl(value) || isPageAnchor(value)) {
+  while ((match = assetStringPattern.exec(content)) !== null) {
+    addReference(references, match[1]);
+  }
+
+  return references;
+}
+
+function collectLocalReferences() {
+  const references = new Set([SITE_FILE]);
+  const filesToScan = [SITE_FILE];
+
+  for (let index = 0; index < filesToScan.length; index += 1) {
+    const file = filesToScan[index];
+    const fullPath = path.join(ROOT, file);
+
+    if (!fs.existsSync(fullPath)) {
       continue;
     }
 
-    references.add(decodeURIComponent(value));
+    const ext = path.extname(file).toLowerCase();
+    if (![".html", ".css", ".js"].includes(ext)) {
+      continue;
+    }
+
+    const content = fs.readFileSync(fullPath, "utf8");
+    for (const reference of extractLocalReferences(content)) {
+      if (!references.has(reference)) {
+        references.add(reference);
+        filesToScan.push(reference);
+      }
+    }
   }
 
   return [...references].sort((a, b) => a.localeCompare(b));
@@ -103,8 +140,7 @@ function checkSite() {
     throw new Error(`Cannot find ${SITE_FILE} in ${ROOT}`);
   }
 
-  const html = fs.readFileSync(sitePath, "utf8");
-  const references = extractLocalReferences(html);
+  const references = collectLocalReferences();
   const missing = [];
 
   for (const reference of references) {
